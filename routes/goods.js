@@ -37,7 +37,7 @@ function validate(res,req,data){
 	return data;
 }
 
-var Good = AV.Object.extend('Goods');
+var Goods = AV.Object.extend('Goods');
 
 // 新增
 router.post('/add', function(req, res, next) {
@@ -84,7 +84,7 @@ router.post('/add', function(req, res, next) {
 	data["rent"] = data["rent"];
 
 	//创建一个数据库对象
-	var goods = new Good();
+	var goods = new Goods();
 	for(var key in data){
 		goods.set(key,data[key]);
 	}
@@ -116,7 +116,7 @@ router.post('/delete', function(req, res, next) {
 		res.send(result);
 		return;
 	}
-	var delObj = AV.Object.createWithoutData('Good', data.id);
+	var delObj = AV.Object.createWithoutData('Goods', data.id);
 	delObj.destroy().then(function (success) {
 		// 删除成功
 		var result = {
@@ -182,7 +182,7 @@ router.post('/edit', function(req, res, next) {
 	data["rent"] = data["rent"];
 
 	//创建一个数据库对象
-	var goods = new Good();
+	var goods = new Goods();
 	for(var key in data){
 		goods.set(key,data[key]);
 	}
@@ -205,7 +205,7 @@ router.post('/edit', function(req, res, next) {
 // 查找
 router.get('/list', function(req, res, next) {
 	//创建一个数据库对象
-	var status  = req.query.status ? req.query.status : 1;
+	var status  = req.query.status ? req.query.status : 2;
 	var limit = req.query.limit ? req.query.limit : 1000;
 	var skip = req.query.skip ? req.query.skip : 0;
 	var all = req.query.all;
@@ -213,10 +213,10 @@ router.get('/list', function(req, res, next) {
 	// var rent = req.query.rent;
 
 	var status = parseInt(status);
-	var Query = new AV.Query("Good");
-	// if(status != 0){
-	// 	Query.equalTo("status",status);
-	// }
+	var Query = new AV.Query("Goods");
+	if(status != 0){
+		Query.equalTo("status",status);
+	}
 
 	// console.log(rent);
 	// Query.equalTo("rent",rent);
